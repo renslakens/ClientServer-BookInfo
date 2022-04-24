@@ -26,14 +26,14 @@ public class BookProtocol {
             "Bless you!",
             "Is there an owl in here?",
             "Is there an echo in here?" };
-    private ArrayList<String> isbn = new ArrayList<>();
+    private ArrayList<String> input = new ArrayList<>();
 
     public String processInput(String theInput) throws IOException {
         String theOutput = null;
-        isbn.add(theInput);
+        input.add(theInput);
         JsonResult result = null;
-        if(isbn.size() >= 2) {
-            URL bookInfo = new URL("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn.get(1));
+        if(input.size() >= 2) {
+            URL bookInfo = new URL("https://www.googleapis.com/books/v1/volumes?q=isbn:" + input.get(1));
 
             InputStream input = bookInfo.openStream();
             Reader reader = new InputStreamReader(input, "UTF-8");
@@ -57,15 +57,7 @@ public class BookProtocol {
                 theOutput = "Ah you already know what it's about, good for you";
                 state = ANOTHER;
             }
-        } else if (state == ANOTHER) {
-            if (theInput.equalsIgnoreCase("y")) {
 
-                theOutput = "Here's your book info:";
-                state = TELLTITLE;
-            } else {
-                theOutput = "Bye.";
-                state = WAITING;
-            }
         }
         return theOutput;
     }
